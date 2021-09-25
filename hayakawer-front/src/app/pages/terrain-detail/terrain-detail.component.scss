@@ -1,0 +1,29 @@
+.terrain {
+  &-label {
+    .location {
+      span {
+        color: rgb(117, 117, 117);
+        font-style: italic;
+        font-size: 0.7rem;
+      }
+    }
+  }
+  &-price {
+    padding: 0.3rem 2rem;
+    color: #fff;
+    font-weight: 500;
+    background-color: #299cacbb;
+    position: absolute;
+    bottom: 2rem;
+    right: -1rem;
+  }
+}
+
+.active {
+  background-color: #61b5c1;
+  color: #fff;
+}
+
+.btn {
+  transition: all 0s ease-in-out;
+}

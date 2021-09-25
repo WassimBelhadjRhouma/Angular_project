@@ -1,0 +1,187 @@
+$plus_btn: #c4c4c4;
+$plus-hover-color: rgb(140, 189, 139);
+.pubs-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 3rem;
+  .pub-card {
+    box-shadow: -3px 6px 15px 2px rgba(136, 136, 136, 0.44);
+    padding: 0.4rem;
+    overflow: hidden;
+    // box-shadow: 0px 1px 5px 0px rgba(158, 158, 158, 0.5);
+    cursor: pointer;
+    border-radius: 7px;
+    .title {
+      font-size: 1.2rem;
+    }
+    .card-info {
+      .title {
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-bottom: 0.2rem;
+      }
+    }
+    &:hover .kind {
+      display: initial;
+      // background: red;
+    }
+  }
+  .img-container {
+    height: 150px;
+    // width: 100%;
+    border-radius: 7px;
+    overflow: hidden;
+    position: relative;
+    img {
+      height: 100%;
+      width: 100%;
+      transition: transform 0.2s 0.1s ease-in-out;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+.big-add-btn {
+  //   background-color: red;
+  // border: 7px solid $plus_btn;
+  // border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.25s ease-in;
+  min-height: 328px;
+  height: 100%;
+  .plus {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    .vert {
+      height: 100%;
+      width: 10px;
+      background-color: $plus_btn;
+      border-radius: 10px;
+      transition: all 0.25s ease-in;
+    }
+    .horiz {
+      transition: all 0.25s ease-in;
+      height: 10px;
+      border-radius: 10px;
+      top: 50%;
+      bottom: 50%;
+      position: absolute;
+      width: 100%;
+      background-color: #c4c4c4;
+    }
+  }
+  &:hover .plus .vert,
+  &:hover .plus .horiz {
+    background-color: $plus-hover-color;
+  }
+  &:hover {
+    border-color: $plus-hover-color;
+  }
+}
+
+.plusBTN {
+  height: 100%;
+  min-height: 200px;
+  align-self: flex-end;
+}
+
+.rating {
+  // span,
+  // p {
+  //   font-size: 0.5rem !important;
+  // }
+}
+
+// .calendar-btn {
+//   width: 100%;
+// }
+
+.card-icons {
+  // border-top: 1px solid rgb(156, 156, 156);
+  padding: 0 0.7rem 0.3rem 0.7rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  justify-content: space-between;
+  // text-align: center;
+
+  span {
+    // text-align: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    &:hover {
+      color: #cb4f33;
+    }
+  }
+}
+
+.inputFilter {
+  &-container {
+    span {
+      color: #0eaa28 !important;
+    }
+  }
+  &::placeholder {
+    color: rgb(155, 155, 155);
+    font-size: 0.8em;
+  }
+  margin-top: 1rem;
+  background-color: #fdfdfd;
+  border: none;
+  border-bottom: 3px solid #0eaa28;
+  padding: 0.7rem 3rem 0.7rem 1rem;
+  // font-size: 0.95rem;
+  &:focus {
+    background: #f6f6f6;
+    outline: none;
+    border: none;
+    border-bottom: 3px solid #0eaa28;
+    box-shadow: none;
+  }
+}
+
+.kind {
+  // padding: 0.2rem 0.7rem;
+  color: #fff;
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  display: none;
+  // font-size: 0.9rem;
+  // pointer-events: none;
+  // background-color: #7630af63;
+}
+
+input,
+select,
+textarea {
+  background-color: #fdfdfd;
+  border: 1px solid #eeeeee;
+  // font-size: 0.95rem;
+  &:focus {
+    background: #f6f6f6;
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #eeeeee;
+  }
+}
+textarea {
+  resize: none;
+  overflow: auto;
+}
+
+select {
+  font-size: 0.9rem;
+}
+
+label {
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.warning-color {
+  font-size: 0.8rem;
+}

@@ -1,0 +1,278 @@
+<div class="container">
+    <!-- <div class="my-4" style="align-items: center !important;"> -->
+
+    <div *ngIf='currentUser?.userType !== "client"'>
+
+        <div class="my-5" style="padding: 0rem 18rem;">
+            <div class="center-center d-flex">
+                <div class="btn-search"
+                    [ngClass]="pageContent === 'terrain' ? 'btn-search-active' : 'btn-search-inactive'"
+                    style='border-radius: 0.2rem 0rem 0rem 0.2rem;' (click)="changePage('terrain')">
+                    Terrain
+                </div>
+                <div class="btn-search"
+                    [ngClass]="pageContent === 'event' ? 'btn-search-active' : 'btn-search-inactive'"
+                    style="border-radius: 0rem 0.2rem 0.2rem 0rem;" (click)="changePage('event')">
+                    Event</div>
+
+            </div>
+            <div class="d-flex inputFilter-container" style="align-items: center; width: 100% !important;">
+
+                <input type="text" id="filter" class="inputFilter" placeholder="Search by title, description"
+                    [(ngModel)]="filterText" style="width: 100%;">
+                <span for='filter' (click)='filter()' class="fas fa-search"
+                    style="margin-left: -2.5rem;margin-top: 1rem;cursor: pointer;padding: .7rem;"></span>
+            </div>
+        </div>
+        <div class="pubs-cards ">
+            <div class="plusBTN card-mine">
+                <div class="big-add-btn d-flex center-center" (click)="goTo(pagesRoute.addTerrain)">
+                    <div class="plus">
+                        <div class="vert"></div>
+                        <div class="horiz"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="pub-card"
+                *ngFor="let terrain of publicationDisplayList | paginate: { itemsPerPage: limit, currentPage: page,totalItems: total}">
+                <div class="img-container">
+                    <img src="../../../assets/terrain2.jpg" alt="">
+                    <div class="kind">
+                        <span class="fas fa-pen" (click)="handleEvent(terrain)"></span>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!-- Modal start -->
+                <ng-template #modalContent let-close="close">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Update Terrain</h5>
+                        <span type="button" class="close" (click)="close()">
+                            <span aria-hidden="true">&times;</span>
+                        </span>
+                    </div>
+
+                    <!-- Modal body -->
+
+                    <div class="modal-body">
+                        <div class="d- ustify-content-evenly center-center bg- p-3">
+                            <form [formGroup]="terrainForm" class="form g-3 mb-5">
+
+                                <!-- Title -->
+                                <div class="form-group my-4">
+                                    <label for="title" class="form-label">Title</label>
+                                    <input type="text" class="form-control" formControlName="title" id="title">
+                                    <small
+                                        *ngIf="terrainForm.controls['title'].errors?.required && (terrainForm.controls['title'].touched)"
+                                        class="warning-color">title required</small>
+                                    <small
+                                        *ngIf="terrainForm.controls['title'].errors?.minlength && (terrainForm.controls['title'].touched)"
+                                        class="warning-color">3 characters at least
+                                    </small>
+                                    <small
+                                        *ngIf="terrainForm.controls['title'].errors?.maxlength && (terrainForm.controls['title'].touched)"
+                                        class="warning-color">too long
+                                    </small>
+                                </div>
+
+                                <!-- Description -->
+                                <div class="form-group mb-4">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea class="form-control" formControlName="description" id="description"
+                                        placeholder="Remember, be nice!" cols="30" rows="6">
+                                    </textarea>
+                                    <small
+                                        *ngIf="terrainForm.controls['description'].errors?.required && (terrainForm.controls['description'].touched)"
+                                        class="warning-color">description required</small>
+                                    <small
+                                        *ngIf="terrainForm.controls['description'].errors?.minlength && (terrainForm.controls['description'].touched)"
+                                        class="warning-color">20 characters at least
+                                    </small>
+                                    <small
+                                        *ngIf="terrainForm.controls['description'].errors?.maxlength && (terrainForm.controls['description'].touched)"
+                                        class="warning-color">too long (max 200 characters )
+                                    </small>
+                                </div>
+
+                                <!--  -->
+                                <div class="row mb-4">
+                                    <div class="form-group col-md-6">
+                                        <label for="price" class="form-label">Price (per reservation)
+                                            <strong> / TND</strong></label>
+                                        <input type="number" min="0" class="form-control" formControlName="price"
+                                            id="price">
+                                        <small
+                                            *ngIf="terrainForm.controls['price'].errors?.required && (terrainForm.controls['price'].touched)"
+                                            class="warning-color">price required</small>
+                                        <small
+                                            *ngIf="terrainForm.controls['price'].errors?.min && (terrainForm.controls['price'].touched)"
+                                            class="warning-color">3 characters at least
+                                        </small>
+                                        <small
+                                            *ngIf="terrainForm.controls['price'].errors?.max && (terrainForm.controls['price'].touched)"
+                                            class="warning-color"> This price invalid
+                                        </small>
+                                        <small
+                                            *ngIf="terrainForm.controls['price'].errors?.negativePrice && (terrainForm.controls['price'].touched)"
+                                            class="warning-color">Must be positive
+                                        </small>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="capacity" class="form-label">Capacity (player's number)</label>
+                                        <input type="number" formControlName="capacity" min="10" placeholder="10"
+                                            class="form-control" id="capacity">
+                                        <small
+                                            *ngIf="terrainForm.controls['capacity'].errors?.required && (terrainForm.controls['capacity'].touched)"
+                                            class="warning-color">capacity required</small>
+                                        <small
+                                            *ngIf="terrainForm.controls['capacity'].errors?.min && (terrainForm.controls['capacity'].touched)"
+                                            class="warning-color">3 characters at least
+                                        </small>
+                                        <small
+                                            *ngIf="terrainForm.controls['capacity'].errors?.max && (terrainForm.controls['capacity'].touched)"
+                                            class="warning-color">too long
+                                        </small>
+                                        <small
+                                            *ngIf="terrainForm.controls['capacity'].errors?.negativeCapacity && (terrainForm.controls['capacity'].touched)"
+                                            class="warning-color">Must be positive
+                                        </small>
+                                    </div>
+
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="form-group col-md-6">
+                                        <select formControlName='region' (change)='detect()'
+                                            class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                            <option selected>{{terrainToUpdate?.region?.length > 0 ?
+                                                terrainToUpdate?.region
+                                                :
+                                                'State'}}
+                                            </option>
+                                            <option *ngFor='let state of states'>{{state}}</option>
+                                            <!-- <option value="2">Two</option> -->
+                                            <!-- <option value="3">Three</option> -->
+                                        </select>
+                                        <small
+                                            *ngIf="terrainForm.controls['region'].errors?.invalidState && (terrainForm.controls['region'].touched)"
+                                            class="warning-color">state required
+                                        </small>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <select formControlName='city' class="form-select form-select-sm"
+                                            aria-label=".form-select-sm example">
+                                            <option selected>{{terrainToUpdate?.city?.length > 0 ? terrainToUpdate?.city
+                                                :
+                                                'city'}}</option>
+                                            <option *ngFor='let city of cities'>{{city}}</option>
+                                            <!-- <option value="2">Two</option> -->
+                                            <!-- <option value="3">Three</option> -->
+                                        </select>
+                                        <small
+                                            *ngIf="terrainForm.controls['city'].errors?.invalidCity && (terrainForm.controls['city'].touched)"
+                                            class="warning-color">state required
+                                        </small>
+                                    </div>
+                                </div>
+                            </form>
+                            <google-map height="400px" width="750px" [center]="center" [zoom]="zoom"
+                                (mapClick)="addMarker($event)">
+                                <map-marker *ngFor="let markerPosition of markerPositions" [position]="markerPosition"
+                                    [options]="markerOptions">
+                                </map-marker>
+                            </google-map>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" [disabled]="terrainForm.disabled || terrainForm.invalid || !terrainForm.touched
+                    || terrainForm.pristine" class="btn" (click)="submitForm();close()">Update</button>
+                    </div>
+                </ng-template>
+
+                <!-- Modal End -->
+
+
+
+
+
+
+
+
+
+
+
+                <hr style="margin : 1rem 0rem .5rem 0rem; color: rgb(94, 109, 94);">
+                <div class="p-2">
+                    <div class="card-info">
+                        <h1 class="title">{{terrain.title.substring(0, 14)}} {{terrain.title.length > 18 ? '...'
+                            :
+                            ''}}
+                        </h1>
+                        <div style='font-size: .7rem;margin-bottom: .6rem;'>
+                            <span class="fas fa-map-marker-alt" style='font-size: .6rem;'></span>
+                            <span>
+                                {{terrain.city}}, {{terrain.region}}
+                            </span>
+                        </div>
+                        <div class="d-flex">
+                            <div class="secondary-color rating" style="font-size: .7rem;">
+                                <span
+                                    [ngClass]="value>=1 ? 'fas fa-star' : value>=0.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                                <span
+                                    [ngClass]="value>=2 ? 'fas fa-star' : value>=1.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                                <span
+                                    [ngClass]="value>=3 ? 'fas fa-star' : value>=2.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                                <span
+                                    [ngClass]="value>=4 ? 'fas fa-star' : value>=3.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                                <span
+                                    [ngClass]="value>=5 ? 'fas fa-star' : value>=4.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                            </div>
+                            <p style="margin-left: .6rem; font-weight: 500;font-size: .8rem; color: rgb(83, 83, 83);">
+                                {{value}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-center-center card-icons"
+                    style='border-top: 1px solid rgba(185, 185, 185, 0.308); padding-top: 1rem;'>
+                    <span class="fas fa-eye" (click)="goTo(pagesRoute.terrainDetail, terrain.id)"
+                        style="margin-right: 1rem;"></span>
+
+                    <span class="far fa-calendar-alt" (click)="goTo(pagesRoute.ownerCalendar, terrain.id)"
+                        style="margin-right: 1rem;"></span>
+
+                    <span class="far fa-trash-alt" (click)='deleteTerrain(terrain)'></span>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="center-center d-flex my-5">
+
+            <!-- new pagination -->
+            <pagination-controls *ngIf='total>7' (pageChange)="page = $event" (pageChange)="pageChanged($event)"
+                (pageBoundsCorrection)="pageChanged($event)" previousLabel="Previous" nextLabel="next"
+                screenReaderPaginationLabel="Pagination" class="float-right">
+            </pagination-controls>
+        </div>
+    </div>
+    <div class="card-mine center-center d-flex  py-4 p-3 flex-md-column" *ngIf="currentUser?.userType === 'client'">
+        <h4>Add terrain ? </h4>
+        <p><span class="fas fa-exclamation-triangle" style="color: rgb(83, 83, 83);"></span> Lorem ipsum dolor sit amet,
+            You can add your own field, be careful! if you are a fake owner, you can lose your account definitely..</p>
+        <span class="btn" (click)="addPropUser()"> add new terrain</span>
+    </div>
+
+</div>

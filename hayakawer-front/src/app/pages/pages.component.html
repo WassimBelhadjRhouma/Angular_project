@@ -1,0 +1,88 @@
+<!-- /.navbar + sidebar -->
+<div class="container-fluid w-100">
+
+    <div class="row">
+        <div class="col-md-2 sideBar">
+            <div class="align-self-sm-center text-center logo-container">
+                <span routerLink='/pages/home' class="logo"><img src="../../assets/logo.png"
+                        style='width: 100px !important;' alt=""></span>
+            </div>
+            <div class="sideBar-container">
+                <div class="sideBar-content" [ngClass]="currentIndex === pagesRef.home ? 'active' : ''"
+                    (click)="goTo(pagesRoute.home)">
+                    <span class="fas fa-home icon"></span>
+                    <span class="sideBar-item">Home</span>
+                </div>
+                <div class="sideBar-content" (click)="goTo(pagesRoute.users)" *ngIf='currentUser?.userType === "admin"'
+                    [ngClass]="currentIndex === pagesRef.users ? 'active' : ''">
+                    <span class="fas fa-users icon"></span>
+                    <span class="sideBar-item"> Users</span>
+                </div>
+
+                <!-- <div class="sideBar-content" (click)='publicationChilds = !publicationChilds'>
+                    <div class="arrow-item">
+                        <span class="sideBar-item">Publications</span>
+                    </div>
+                </div> -->
+                <div class="sideBar-content" (click)="goTo(pagesRoute.terrain)"
+                    [ngClass]="currentIndex === pagesRef.publication ? 'active' : ''">
+                    <span class="fas fa-edit icon"></span>
+                    <span class="sideBar-item">Publications</span>
+                    <!-- <span>Add Terrain</span> -->
+                    <!-- <span (click)="goTo(pagesRoute.event)">Events</span> -->
+                    <!-- <span>Add Event</span> -->
+                </div>
+
+                <div class="sideBar-content" (click)="goTo(pagesRoute.profile)"
+                    [ngClass]="currentIndex === pagesRef.profile ? 'active' : ''">
+                    <span class="fas fa-user icon"></span>
+                    <span class="sideBar-item">Profile</span>
+                </div>
+
+                <div class="sideBar-content" (click)="logout()">
+                    <span class="fas fa-sign-out-alt icon"></span>
+                    <span class="sideBar-item">log out</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid col-md-10 p-0 overflow-hidden">
+            <nav class="navbar-dash container">
+                <div class="navbar-dash-container">
+                    <ul class="navbar-dash-content ">
+
+                        <li class="nav-item" ngbDropdown #myDrop="ngbDropdown">
+
+                            <span class="fas fa-bell" (click)="$event.stopPropagation(); myDrop.open();"
+                                id="navbarDropdown1">
+                            </span>
+                            <div ngbDropdownMenu aria-labelledby="navbarDropdown1" class="dropdown-menu">
+                                <span ngbDropdownItem (click)="$event.preventDefault()">Action</span>
+                            </div>
+                        </li>
+
+                        <li class="nav-iem" ngbDropdown>
+                            <a tabindex="0" ngbDropdownToggle id="navbarDropdown2">
+                                {{firstName}}
+                            </a>
+                            <div ngbDropdownMenu aria-labelledby="navbarDropdown2" class="dropdown-menu"
+                                style="left: -22px">
+                                <span ngbDropdownItem (click)="goTo(pagesRoute.profile)">Profile</span>
+                                <span ngbDropdownItem (click)="logout()">Sign out</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="container page-content">
+                <router-outlet></router-outlet>
+                <div class="first-loader" *ngIf='loader'>
+                    <app-loader></app-loader>
+                </div>
+            </div>
+            <footer class="container footer">
+                <span>&copy; copyrights </span>
+            </footer>
+        </div>
+    </div>
+</div>

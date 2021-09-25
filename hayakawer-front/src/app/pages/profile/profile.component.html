@@ -1,0 +1,232 @@
+<div class="row">
+    <div class="col-7">
+        <!-- //////////////////////////////        UPDATE PROFILE           ////////////////////////////////////////////////////////////// -->
+
+        <div class="profile-form p-5 card-mine" (mouseenter)="editProfile = !editProfile"
+            (mouseleave)="editProfile = !editProfile">
+            <div>
+                <h3 class="mb-4">Profile
+                    <span class="fas fa-pen" *ngIf="editProfile" style="font-size: 1.3rem; cursor: pointer;"
+                        (click)="profileForm.enable()">
+                    </span>
+                </h3>
+            </div>
+
+            <form (ngSubmit)="updateProfile()" *ngIf="currentUser" [formGroup]="profileForm" class="form g-3">
+
+                <!-- firstname && lastname -->
+                <div class="row mb-4">
+                    <!-- first name -->
+                    <div class="form-group col-md-6">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" formControlName="firstName" id="firstName">
+                        <small
+                            *ngIf="profileForm.controls['firstName'].errors?.required && (profileForm.controls['firstName'].touched)"
+                            class="warning-color">firstName required</small>
+                        <small
+                            *ngIf="profileForm.controls['firstName'].errors?.minlength && (profileForm.controls['firstName'].touched)"
+                            class="warning-color">3 characters at least
+                        </small>
+                        <small
+                            *ngIf="profileForm.controls['firstName'].errors?.maxlength && (profileForm.controls['firstName'].touched)"
+                            class="warning-color">too long
+                        </small>
+                    </div>
+                    <!-- last name -->
+                    <div class="form-group col-md-6">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" formControlName="lastName" class="form-control" id="lastName">
+                        <small
+                            *ngIf="profileForm.controls['lastName'].errors?.required && (profileForm.controls['lastName'].touched)"
+                            class="warning-color">lastName required</small>
+                        <small
+                            *ngIf="profileForm.controls['lastName'].errors?.minlength && (profileForm.controls['lastName'].touched)"
+                            class="warning-color">3 characters at least
+                        </small>
+                        <small
+                            *ngIf="profileForm.controls['lastName'].errors?.maxlength && (profileForm.controls['lastName'].touched)"
+                            class="warning-color">too long
+                        </small>
+                    </div>
+                </div>
+
+                <!-- city && Region -->
+                <div class="row mb-3">
+                    <div class="form-group col-md-6">
+                        <select formControlName='region' (change)='detect()' class="form-select form-select-sm"
+                            aria-label=".form-select-sm example">
+                            <option selected>{{currentUser?.region?.length > 0 ? currentUser?.region : 'State'}}
+                            </option>
+                            <option *ngFor='let state of states'>{{state}}</option>
+                            <!-- <option value="2">Two</option> -->
+                            <!-- <option value="3">Three</option> -->
+                        </select>
+                        <small
+                            *ngIf="profileForm.controls['region'].errors?.invalidState && (profileForm.controls['region'].touched)"
+                            class="warning-color">state required
+                        </small>
+                    </div>
+                    <!-- region -->
+                    <div class="form-group col-md-6" *ngIf="profileForm.controls['region'].value !== 'State'">
+                        <select formControlName='city' class="form-select form-select-sm"
+                            aria-label=".form-select-sm example">
+                            <option selected>{{currentUser?.city?.length > 0 ? currentUser?.city : 'city'}}</option>
+                            <option *ngFor='let city of cities'>{{city}}</option>
+                            <!-- <option value="2">Two</option> -->
+                            <!-- <option value="3">Three</option> -->
+                        </select>
+                        <small
+                            *ngIf="profileForm.controls['city'].errors?.invalidCity && (profileForm.controls['city'].touched)"
+                            class="warning-color">state required
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group mb-2">
+                    <button type="submit" [disabled]="profileForm.disabled || profileForm.invalid || !profileForm.touched
+                         || profileForm.pristine" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+            <span class="btn btn-dark-light" (click)="open('focusFirst')">
+                Delete Account
+                <span class="fas fa-exclamation-circle"></span>
+            </span>
+            <div class="loader-container" *ngIf='loader'>
+                <app-loader></app-loader>
+            </div>
+        </div>
+
+
+        <!-- //////////////////////////////        UPDATE PASSWORD           ////////////////////////////////////////////////////////////// -->
+
+        <div class="card-mine my-5" *ngIf="currentUser?.password">
+            <!-- collaps -->
+            <div class="collaps">
+                <h6>Edit Password</h6>
+                <div>
+                    <span class="fas fa-minus" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+                        aria-controls="collapseExample">
+                    </span>
+                </div>
+            </div>
+
+            <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+                <div class="card collaps-container">
+                    <form (ngSubmit)="updatePassword()" (click)="responseCode = null" [formGroup]="updatePasswordForm"
+                        class="form g-3">
+
+                        <div class="form-group mb-2">
+                            <label for="currentPassword" class="form-label">Current password</label>
+                            <div class="input-group">
+                                <input type="{{showCurrentPassword ? 'text' : 'password'}}" appBlockCopyPaste
+                                    formControlName="currentPassword" class="form-control" id="currentPassword"
+                                    aria-label="currentPassword" aria-describedby="addon-wrapping">
+                                <span [ngClass]="showCurrentPassword ?  'fa-eye': 'fa-eye-slash'"
+                                    class="fa m-1 p-2 position-absolute right showpassword"
+                                    (click)="showCurrentPassword = !showCurrentPassword"></span>
+                            </div>
+                            <small
+                                *ngIf="updatePasswordForm.controls['currentPassword'].errors?.required && (updatePasswordForm.controls['currentPassword'].touched)"
+                                class="warning-color">current password required</small>
+                            <small
+                                *ngIf="updatePasswordForm.controls['currentPassword'].errors?.pattern && (updatePasswordForm.controls['currentPassword'].touched)"
+                                class="warning-color"> password invalid (should contains 1 uppercase, 1 number)
+                            </small>
+
+                            <small
+                                *ngIf="updatePasswordForm.controls['currentPassword'].errors?.MatchPassword && (updatePasswordForm.controls['currentPassword'].touched)"
+                                class="warning-color"> can't update same password
+                            </small>
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label for="password" class="form-label">New Password</label>
+                            <div class="input-group">
+                                <input type="{{showPassword ? 'text' : 'password'}}" appBlockCopyPaste
+                                    formControlName="password" class="form-control" id="password"
+                                    aria-label="confirmPassword" aria-describedby="addon-wrapping">
+                                <span [ngClass]="showPassword ?  'fa-eye': 'fa-eye-slash'"
+                                    class="fa m-1 p-2 position-absolute right showpassword"
+                                    (click)="showPassword = !showPassword"></span>
+                            </div>
+                            <small
+                                *ngIf="updatePasswordForm.controls['password'].errors?.required && (updatePasswordForm.controls['password'].touched)"
+                                class="warning-color">password required</small>
+                            <small
+                                *ngIf="updatePasswordForm.controls['password'].errors?.pattern && (updatePasswordForm.controls['password'].touched)"
+                                class="warning-color"> password invalid (should contains 1 uppercase, 1 number)
+                            </small>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm password</label>
+                            <div class="input-group">
+                                <input type="{{showConfirmPassword ? 'text' : 'password'}}" appBlockCopyPaste
+                                    formControlName="confirmPassword" class="form-control" id="confirmPassword"
+                                    aria-label="confirmPassword" aria-describedby="addon-wrapping">
+                                <span [ngClass]="showConfirmPassword ?  'fa-eye': 'fa-eye-slash'"
+                                    class="fa m-1 p-2 position-absolute right showpassword"
+                                    (click)="showConfirmPassword = !showConfirmPassword"></span>
+                            </div>
+                            <small
+                                *ngIf="updatePasswordForm.controls['confirmPassword'].errors?.required && (updatePasswordForm.controls['confirmPassword'].touched)"
+                                class="warning-color"> wrong password (Doesn't match password)
+                            </small>
+
+                            <small
+                                *ngIf="updatePasswordForm.controls['confirmPassword'].errors?.MatchPassword && (updatePasswordForm.controls['confirmPassword'].touched)"
+                                class="warning-color"> wrong password (Doesn't match password)
+                            </small>
+                        </div>
+
+                        <div class="form-group mb-2 mt-2">
+                            <button type="submit" [disabled]="updatePasswordForm.disabled || updatePasswordForm.invalid"
+                                class="btn btn-primary">update password</button>
+                        </div>
+                    </form>
+                    <div *ngIf="responseCode===-1" class="alert alert-warning" role="alert">
+                        Incorrect Password
+                    </div>
+                </div>
+            </div>
+
+            <div class="loader-container" *ngIf='passwordLoader'>
+                <app-loader></app-loader>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- //////////////////////////////        UPDATE Photo           ////////////////////////////////////////////////////////////// -->
+
+    <div class="col-5">
+        <div class="profile-img p-5 card-mine center-center d-flex">
+            <div class="update-img">
+                <div class="update-img-container">
+                    <img src="../../../assets/wassim.jpg" alt="">
+                </div>
+                <div class="circle-icon">
+                    <span class="fas fa-camera icon"></span>
+                </div>
+
+            </div>
+            <!-- <div class="loader-container">
+                <app-loader></app-loader>
+            </div> -->
+            <div>
+                <p class="my-2 text-center fw-bolder">{{currentUser?.firstName}} {{currentUser?.lastName}}</p>
+                <p class="my-2 text-center fw-light" style="color: rgb(82, 82, 82)">
+                    <span class="far fa-envelope"></span>
+                    {{currentUser?.email}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--  -->

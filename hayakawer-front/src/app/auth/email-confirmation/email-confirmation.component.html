@@ -1,0 +1,9 @@
+<p *ngIf="codeResponse === 1" class="alert alert-success " role="alert"> email confirmed! <a routerLink='/auth/login'
+                class="warning-color">sign in</a></p>
+<p *ngIf="codeResponse === -1" class="alert alert-warning" role="alert"> something went wrong, please try again later
+</p>
+<p *ngIf="codeResponse === -2" class="alert alert-warning"> expired confirmation email! we've sent another mail, please
+        check your inbox</p>
+<div *ngIf="loader" class="spinner-grow primary-color" style="width: 3rem; height: 3rem" role="status">
+        <span class="sr-only">Loading...</span>
+</div>

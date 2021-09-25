@@ -1,0 +1,65 @@
+<p class="fs-5 fw-normal text-center">Sign in</p>
+<!-- <button (click)="signInWithGoogle()">
+    Google
+</button> -->
+
+<form (ngSubmit)="submitForm()" (click)="codeResponse=null" [formGroup]="loginForm" class="form g-3">
+
+    <div class="form-group mb-2">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" formControlName="email" class="form-control" id="email">
+        <small *ngIf="loginForm.controls['email'].errors?.required && (loginForm.controls['email'].touched)"
+            class="warning-color">email required</small>
+        <small *ngIf="loginForm.controls['email'].errors?.pattern && (loginForm.controls['email'].touched)"
+            class="warning-color"> email invalid
+        </small>
+
+    </div>
+    <div class="form-group mb-2">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
+            <input type="{{showPassword ? 'text' : 'password'}}" appBlockCopyPaste formControlName="password"
+                class="form-control" id="password" aria-label="confirmPassword" aria-describedby="addon-wrapping">
+            <span [ngClass]="showPassword ?  'fa-eye': 'fa-eye-slash'"
+                class="fa m-1 p-2 position-absolute right showpassword" (click)="showPassword = !showPassword"></span>
+        </div>
+        <small><a routerLink="/auth/ask-reset-password" class="text-decoration-underline text-black-50 fw-light">Forget
+                Password ?</a></small><br>
+        <small *ngIf="loginForm.controls['password'].errors?.required && (loginForm.controls['password'].touched)"
+            class="warning-color">password required</small>
+        <small *ngIf="loginForm.controls['password'].errors?.pattern && (loginForm.controls['password'].touched)"
+            class="warning-color"> password invalid (should contains 1 uppercase, 1 number)
+        </small>
+    </div>
+
+
+    <div class="form-group  text-center">
+        <button type="submit" [disabled]="loginForm.disabled || loginForm.invalid" class="btn btn-primary">Sign
+            in</button>
+    </div>
+</form>
+<div class="fw-light mb-3 text-center">
+    <a routerLink="/auth/signup" class="xs text-black-50">Don't have an account ?</a>
+</div>
+<hr class="text-black-50">
+<h2 class="fs-5 fw-normal mt-3 text-center">continue with</h2>
+<div class="d-flex justify-content-center mb-5 mt-4">
+    <a class="fab fa-facebook-f fa-2x me-4" style="color:#2E3A59;font-size: 1.5rem;" (click)="signInWithFB()"></a>
+    <a class="fab fa-google" style="color:#2E3A59; font-size: 1.5rem;" (click)="signInWithGoogle()"></a>
+
+</div>
+<div *ngIf="codeResponse===-1" class="alert alert-warning" role="alert">
+    please confirm your email.
+</div>
+<div *ngIf="codeResponse===-2" class="alert alert-danger" role="alert">
+    This account is blocked.
+</div>
+<div *ngIf="codeResponse===1" class="alert alert-success" role="alert">
+    Welcome Wassim.</div>
+
+<div *ngIf="codeResponse===-3" class="alert alert-warning" role="alert">
+    Invalid email or password</div>
+
+<div *ngIf="loader" class="spinner-grow primary-color" style="width: 3rem; height: 3rem" role="status">
+    <span class="sr-only">Loading...</span>
+</div>

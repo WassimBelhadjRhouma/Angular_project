@@ -1,0 +1,159 @@
+<div class="container card-mine py-5">
+
+    <div class="row text-center">
+        <h3 class="mb-4">Calendar manager</h3>
+        <div class="col-md-4">
+            <div class="btn-group">
+                <div class="btn btn-light" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                    (viewDateChange)="closeOpenMonthViewDay()">
+                    Previous
+                </div>
+                <div class="btn btn-light" mwlCalendarToday [(viewDate)]="viewDate">
+                    Today
+                </div>
+                <div class="btn btn-light" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+                    (viewDateChange)="closeOpenMonthViewDay()">
+                    Next
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h4>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h4>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group">
+                <div class="btn btn-light" (click)="setView(CalendarView.Month)"
+                    [class.active]="view === CalendarView.Month">
+                    Month
+                </div>
+                <div class="btn btn-light" (click)="setView(CalendarView.Week)"
+                    [class.active]="view === CalendarView.Week">
+                    Week
+                </div>
+                <div class="btn btn-light" (click)="setView(CalendarView.Day)"
+                    [class.active]="view === CalendarView.Day">
+                    Day
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div [ngSwitch]="view">
+        <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+            [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+            (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+        </mwl-calendar-month-view>
+        <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+            [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+            (eventTimesChanged)="eventTimesChanged($event)">
+        </mwl-calendar-week-view>
+        <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
+            [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+            (eventTimesChanged)="eventTimesChanged($event)">
+        </mwl-calendar-day-view>
+    </div>
+
+    <!-- Everything you see below is just for the demo, you don't need to include it in your app -->
+
+    <br /><br /><br />
+
+    <h3>
+        Manage Reservation
+
+    </h3>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Starts at</th>
+                    <th>Ends at</th>
+                    <th>Refuse</th>
+                    <th>Accept</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let event of enAttente">
+                    <td>
+                        <div style='margin-top: .3rem;'><span class="fas fa-circle"
+                                style='font-size: .7rem;margin-right: .7rem; color: red;'></span>{{event.title}}</div>
+                        <!-- <input type="text" class="form-control" [(ngModel)]="event.title" (keyup)="refresh.next()" /> -->
+                    </td>
+
+                    <td>
+                        <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.start"
+                            (ngModelChange)="refresh.next()" [altInput]="true" [time_24hr]="true"
+                            [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+                            placeholder="Not set" />
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.end" [time_24hr]="true"
+                            (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true"
+                            [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+                    </td>
+                    <td class="text-center">
+                        <span class="fas fa-trash-alt" style='margin-top: .7rem;cursor: pointer;'
+                            (click)="deleteEvent(event)"></span>
+                    </td>
+                    <td class="text-center">
+                        <span class="fas fa-plus" (click)="confirmEvent(event)"
+                            style='margin-top: .7rem;font-size: 1.2rem;cursor: pointer;'></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <ng-template #modalContent let-close="close">
+        <div class="modal-header">
+            <h5 class="modal-title">Reservation</h5>
+            <span type="button" class="close" (click)="close()">
+                <span aria-hidden="true">&times;</span>
+            </span>
+        </div>
+        <div class="modal-body">
+            <div class="d-flex ustify-content-evenly bg-light p-3">
+                <div class="d-flecenter-ceter" style='margin-right: 6rem;'>
+                    <h6>start: </h6>
+                    <pre>{{ modalData?.event.start.getHours() }}:{{ modalData?.event.start.getMinutes() === 0 ? '00':  modalData?.event.start.getMinutes()}} {{ modalData?.event.start.getDate() }}/{{ modalData?.event.start.getMonth() < 10 ? '0'+modalData?.event.start.getMonth(): modalData?.event.start.getMonth()  }}/{{ modalData?.event.start.getFullYear()
+                        }}</pre>
+                </div>
+                <div>
+                    <h6>
+                        end:
+                    </h6>
+                    <pre>{{ modalData?.event.end.getHours() }}:{{ modalData?.event.end.getMinutes() === 0 ? '00': modalData?.event.start.getMinutes() }} {{ modalData?.event.end.getDate() }}/{{ modalData?.event.end.getMonth() < 10 ? '0'+modalData?.event.start.getMonth(): modalData?.event.start.getMonth() }}/{{ modalData?.event.end.getFullYear() }}</pre>
+                </div>
+            </div>
+            <div class="d-flex ustify-content-evenly bg-light p-3" *ngIf='modalData?.event.id !== "new"'>
+                <div class="d-flecenter-ceter" style='margin-right: 6rem;'>
+                    <h6>client name: </h6>
+                    <pre>{{ reservationDetail(modalData?.event.id)?.firstName }} {{ reservationDetail(modalData?.event.id)?.lastName }} </pre>
+                </div>
+                <div>
+                    <h6>
+                        Contact:
+                    </h6>
+                    <pre> {{ reservationDetail(modalData?.event.id)?.email }}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span type="button" *ngIf='modalData?.event.title === "En attente"' class="btn"
+                (click)="confirmEvent(modalData?.event);close()">
+                Accept
+            </span>
+
+            <span type="button" class="btn btn-danger" (click)="deleteEvent(modalData?.event);close()">
+                delete
+            </span>
+        </div>
+    </ng-template>
+    <button class="btn bg-border-primary float-right" (click)="addEvent()">
+        Add new
+        <!-- <span class="fas fa-plus"></span> -->
+    </button>
+</div>

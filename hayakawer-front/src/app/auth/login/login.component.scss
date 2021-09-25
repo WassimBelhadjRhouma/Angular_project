@@ -1,0 +1,35 @@
+input,
+select {
+  background-color: #fdfdfd;
+  border: 1px solid #eeeeee;
+  // font-size: 0.95rem;
+  &:focus {
+    background: #f6f6f6;
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #eeeeee;
+  }
+}
+
+select {
+  font-size: 0.9rem;
+}
+
+label {
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.warning-color {
+  font-size: 0.8rem;
+}
+
+.btn.disable {
+  background-color: #5fa641 !important;
+}
+
+.showpassword {
+  z-index: 3;
+  cursor: pointer;
+  color: rgb(56, 56, 56);
+}

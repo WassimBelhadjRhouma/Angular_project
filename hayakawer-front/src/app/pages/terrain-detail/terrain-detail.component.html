@@ -1,0 +1,155 @@
+<div class="container">
+    <div class="card-mine p-5">
+        <div class="container">
+            <div style='position: relative;'>
+                <ngb-carousel *ngIf="images" style='width: 100%;height: 500px;border-radius: 15px;'>
+                    <ng-template ngbSlide style='width: 100%;height: 500px;border-radius: 15px;'
+                        *ngFor='let img of images'>
+                        <div class="picsum-img-wrapper" style='width: 100%;height: 500px;border-radius: 15px;'>
+                            <img [src]="img" alt="Random first slide"
+                                style='width: 100%;height: 100%;border-radius: 15px;'>
+                        </div>
+                    </ng-template>
+                </ngb-carousel>
+                <div class="terrain-price">
+                    {{currentPublication?.price}} TND
+                </div>
+            </div>
+            <div class="terrain-label my-4">
+                <h1 class="title">
+                    {{currentPublication?.title}}
+                </h1>
+                <div class="secondary-color rating" style="font-size: .7rem;">
+                    <span
+                        [ngClass]="value>=1 ? 'fas fa-star' : value>=0.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                    <span
+                        [ngClass]="value>=2 ? 'fas fa-star' : value>=1.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                    <span
+                        [ngClass]="value>=3 ? 'fas fa-star' : value>=2.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                    <span
+                        [ngClass]="value>=4 ? 'fas fa-star' : value>=3.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                    <span
+                        [ngClass]="value>=5 ? 'fas fa-star' : value>=4.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                </div>
+                <h6 class="location my-4">{{currentPublication?.city}}<br> <span>{{currentPublication?.region}},
+                        Tunisie</span> </h6>
+            </div>
+            <div class="card-mine p-4 my-2">
+                <h1 class="card-mine-title">
+                    Description
+                </h1>
+                <hr>
+                <p class="lead">
+                    {{currentPublication?.description}}
+                </p>
+            </div>
+            <div class="card-mine p-4 my-5">
+                <h1 class="card-mine-title">
+                    Detail
+                </h1>
+                <div class="fw-bolder bg-light p-3 d-flex my-3">
+
+                    <div class="col-5">
+                        <span>Capacity:</span> <span style='margin-left: 1rem;'
+                            class="grey-color">{{currentPublication?.capacity}}
+                            player</span>
+                    </div>
+                    <div class="col-7">
+                        <span class="">Price per reservation:</span> <span style='margin-left: 1rem; color: #41DC7F;'
+                            class="fw-bold">{{currentPublication?.price}} TND</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- calendar start -->
+            <div class="card-ine p-4">
+                <ng-template #modalContent let-close="close">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Reservation Details</h5>
+                        <span type="button" class="close" (click)="close()">
+                            <span aria-hidden="true">&times;</span>
+                        </span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="d-flex ustify-content-evenly bg-light p-3">
+                            <div class="d-flecenter-ceter" style='margin-right: 6rem;'>
+                                <h6>start: </h6>
+                                <pre>{{ modalData?.event.start.getHours() }}:{{ modalData?.event.start.getMinutes() === 0 ? '00':  modalData?.event.start.getMinutes()}} {{ modalData?.event.start.getDate() }}/{{ modalData?.event.start.getMonth() < 10 ? '0'+modalData?.event.start.getMonth(): modalData?.event.start.getMonth()  }}/{{ modalData?.event.start.getFullYear()
+                                    }}</pre>
+                            </div>
+                            <div>
+                                <h6>
+                                    end:
+                                </h6>
+                                <pre>{{ modalData?.event.end.getHours() }}:{{ modalData?.event.end.getMinutes() === 0 ? '00': modalData?.event.start.getMinutes() }} {{ modalData?.event.end.getDate() }}/{{ modalData?.event.end.getMonth() < 10 ? '0'+modalData?.event.start.getMonth(): modalData?.event.start.getMonth() }}/{{ modalData?.event.end.getFullYear() }}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
+                    </div>
+                </ng-template>
+                <div class="d-flex justify-content-between my-3">
+                    <div class="btn-group">
+                        <span class="btn btn-light" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                            (viewDateChange)="closeOpenMonthViewDay()">
+                            Previous
+                        </span>
+                        <span class="btn btn-light" mwlCalendarToday [(viewDate)]="viewDate">
+                            Today
+                        </span>
+                        <span class="btn btn-light" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+                            (viewDateChange)="closeOpenMonthViewDay()">
+                            Next
+                        </span>
+                    </div>
+                    <div class="btn-group">
+                        <div class="btn btn-light" (click)="setView(CalendarView.Month)"
+                            [class.active]="view === CalendarView.Month">
+                            Month
+                        </div>
+                        <div class="btn btn-light" (click)="setView(CalendarView.Week)"
+                            [class.active]="view === CalendarView.Week">
+                            Week
+                        </div>
+                        <div class="btn btn-light" (click)="setView(CalendarView.Day)"
+                            [class.active]="view === CalendarView.Day">
+                            Day
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center my-4" style=''>
+                    <p class="" style="font-size: 1.5rem;">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</p>
+                </div>
+                <div [ngSwitch]="view">
+                    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+                        [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+                        (eventClicked)="handleEvent('Clicked', $event.event)"
+                        (eventTimesChanged)="eventTimesChanged($event)">
+                    </mwl-calendar-month-view>
+                    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+                        [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+                        (eventTimesChanged)="eventTimesChanged($event)">
+                    </mwl-calendar-week-view>
+                    <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
+                        [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+                        (eventTimesChanged)="eventTimesChanged($event)">
+                    </mwl-calendar-day-view>
+                </div>
+            </div>
+            <!-- calendar end -->
+            <div class="card-min my-5 p-4 d-flex center-center">
+                <div>
+                    <h4 class="my-4" style='margin-bottom: 0rem;'> Location
+                        <!-- <span class="fas fa-map-marked-alt fs-5"></span> -->
+                    </h4>
+                    <google-map height="400px" width="750px" [center]="center" [zoom]="zoom">
+                        <map-marker [position]="markerPositions" [options]="markerOptions">
+                        </map-marker>
+                    </google-map>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

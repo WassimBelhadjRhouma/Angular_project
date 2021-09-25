@@ -1,0 +1,78 @@
+// @import "../../../styles";
+// Landing Page
+#landingPage {
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(
+    269.71deg,
+    #effee9 9.86%,
+    rgba(239, 254, 233, 0) 99.69%
+  );
+}
+
+// Navbar
+.navbar {
+  &-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    .btn {
+      background-color: transparent;
+      font-size: 0.9rem;
+      border: 1px solid #333;
+      color: #333;
+      padding: 0.2rem 1.2rem !important;
+    }
+    .dark-bg {
+      color: #fff;
+      background-color: #333;
+    }
+  }
+  ul {
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+  }
+  li {
+    margin-left: 2rem;
+  }
+}
+
+// Showcase
+#showcase {
+  display: flex;
+  flex-direction: center;
+  //   padding-top: 7rem;
+  align-items: center;
+  height: 80vh;
+  &-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  &-content,
+  &-images {
+    position: relative;
+  }
+  &-images {
+    z-index: 1;
+    // align-items: center;
+    display: flex;
+    justify-content: center;
+
+    .images {
+      height: 100px;
+      z-index: 1;
+      img {
+        margin-right: 1rem;
+      }
+    }
+    .ellipses {
+      z-index: -1 !important;
+      position: absolute;
+      //   right: -120px;
+      width: 120%;
+      height: 170%;
+      top: -40%;
+    }
+  }
+}

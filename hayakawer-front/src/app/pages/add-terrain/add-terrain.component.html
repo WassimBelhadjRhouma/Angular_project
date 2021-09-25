@@ -1,0 +1,203 @@
+<div class="container">
+    <div id="stepper1" class="bs-stepper mt-5">
+        <div class="bs-stepper-header">
+            <div class="step" data-target="#partone">
+                <button class="step-trigger">
+                    <span class="bs-stepper-circle bg-primary">1</span>
+                    <span class="">Part One</span>
+                </button>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-target="#parttwo">
+                <button class="step-trigger">
+                    <span class="bs-stepper-circle bg-primary">2</span>
+                    <span class="">Part Two</span>
+                </button>
+            </div>
+            <div class="line"></div>
+            <div class="step" data-target="#partthree">
+                <button class="step-trigger">
+                    <span class="bs-stepper-circle bg-primary">3</span>
+                    <span class="">Part Three</span>
+                </button>
+            </div>
+        </div>
+        <div class="bs-stepper-content card-mine d-flex center-center py-4">
+
+            <!-- Step one -->
+            <div id="partone" class="content" role="tabpanel" style="color:black">
+                <div *ngIf="currentStep === 0" class="center-center d-flex flex-md-column">
+                    <h4 class="center-center mb-2">
+                        Ajouter un terrain
+                    </h4>
+                    <form [formGroup]="terrainForm" class="form g-3">
+
+                        <!-- Title -->
+                        <div class="form-group my-4">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" formControlName="title" id="title">
+                            <small
+                                *ngIf="terrainForm.controls['title'].errors?.required && (terrainForm.controls['title'].touched)"
+                                class="warning-color">title required</small>
+                            <small
+                                *ngIf="terrainForm.controls['title'].errors?.minlength && (terrainForm.controls['title'].touched)"
+                                class="warning-color">3 characters at least
+                            </small>
+                            <small
+                                *ngIf="terrainForm.controls['title'].errors?.maxlength && (terrainForm.controls['title'].touched)"
+                                class="warning-color">too long
+                            </small>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="form-group mb-4">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" formControlName="description" id="description"
+                                placeholder="Remember, be nice!" cols="30" rows="6">
+                                </textarea>
+                            <small
+                                *ngIf="terrainForm.controls['description'].errors?.required && (terrainForm.controls['description'].touched)"
+                                class="warning-color">description required</small>
+                            <small
+                                *ngIf="terrainForm.controls['description'].errors?.minlength && (terrainForm.controls['description'].touched)"
+                                class="warning-color">20 characters at least
+                            </small>
+                            <small
+                                *ngIf="terrainForm.controls['description'].errors?.maxlength && (terrainForm.controls['description'].touched)"
+                                class="warning-color">too long (max 200 characters )
+                            </small>
+                        </div>
+
+                        <!--  -->
+                        <div class="row mb-4">
+                            <div class="form-group col-md-6">
+                                <label for="price" class="form-label">Price (per reservation)
+                                    <strong> / TND</strong></label>
+                                <input type="number" min="0" class="form-control" formControlName="price" id="price">
+                                <small
+                                    *ngIf="terrainForm.controls['price'].errors?.required && (terrainForm.controls['price'].touched)"
+                                    class="warning-color">price required</small>
+                                <small
+                                    *ngIf="terrainForm.controls['price'].errors?.min && (terrainForm.controls['price'].touched)"
+                                    class="warning-color">3 characters at least
+                                </small>
+                                <small
+                                    *ngIf="terrainForm.controls['price'].errors?.max && (terrainForm.controls['price'].touched)"
+                                    class="warning-color"> This price invalid
+                                </small>
+                                <small
+                                    *ngIf="terrainForm.controls['price'].errors?.negativePrice && (terrainForm.controls['price'].touched)"
+                                    class="warning-color">Must be positive
+                                </small>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="capacity" class="form-label">Capacity (player's number)</label>
+                                <input type="number" formControlName="capacity" min="10" placeholder="10"
+                                    class="form-control" id="capacity">
+                                <small
+                                    *ngIf="terrainForm.controls['capacity'].errors?.required && (terrainForm.controls['capacity'].touched)"
+                                    class="warning-color">capacity required</small>
+                                <small
+                                    *ngIf="terrainForm.controls['capacity'].errors?.min && (terrainForm.controls['capacity'].touched)"
+                                    class="warning-color">3 characters at least
+                                </small>
+                                <small
+                                    *ngIf="terrainForm.controls['capacity'].errors?.max && (terrainForm.controls['capacity'].touched)"
+                                    class="warning-color">too long
+                                </small>
+                                <small
+                                    *ngIf="terrainForm.controls['capacity'].errors?.negativeCapacity && (terrainForm.controls['capacity'].touched)"
+                                    class="warning-color">Must be positive
+                                </small>
+                            </div>
+
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="form-group col-md-6">
+                                <select formControlName='region' (change)='detect()' class="form-select form-select-sm"
+                                    aria-label=".form-select-sm example">
+                                    <option selected>State
+                                    </option>
+                                    <option *ngFor='let state of states'>{{state}}</option>
+                                    <!-- <option value="2">Two</option> -->
+                                    <!-- <option value="3">Three</option> -->
+                                </select>
+                                <small
+                                    *ngIf="terrainForm.controls['region'].errors?.invalidState && (terrainForm.controls['region'].touched)"
+                                    class="warning-color">state required
+                                </small>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <select formControlName='city' class="form-select form-select-sm"
+                                    aria-label=".form-select-sm example">
+                                    <option selected>city</option>
+                                    <option *ngFor='let city of cities'>{{city}}</option>
+                                    <!-- <option value="2">Two</option> -->
+                                    <!-- <option value="3">Three</option> -->
+                                </select>
+                                <small
+                                    *ngIf="terrainForm.controls['city'].errors?.invalidCity && (terrainForm.controls['city'].touched)"
+                                    class="warning-color">state required
+                                </small>
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <button type="submit" class="btn bg-primary" [disabled]="terrainForm.invalid"
+                                (click)="next(2)">Next</button>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+
+            <!-- step two -->
+
+            <div id="parttwo" class="content" role="tabpanel" style="color:black">
+                <div *ngIf="currentStep === 1" style="width: 100%;" class="">
+                    <h4 class="center-center text-center mb-4">
+                        Upload Photos
+                    </h4>
+                    <div class="d-flex flex-md-column center-center"
+                        style="padding: 7rem 13rem;; border: 1px dashed #818085;border-radius: .4rem;">
+                        <label for="image">
+
+                            <span type="file" accept="image/*" class="fas primary-color fa-cloud-upload-alt"
+                                style="font-size: 3.5rem;cursor: pointer;"></span>
+                            <input type="file" id="image" style="display: none;" accept="image/*" />
+                        </label>
+                        <!-- <p>Browse images from your computer herlabele</p> -->
+                        <label for="image" style="cursor: pointer;" class="my-2">Browse images from your computer <span
+                                class="primary-color">
+                                here</span></label>
+
+                    </div>
+                    <div class="btn btn-dark-light mt-5" (click)="next(1)">Previous</div>
+                    <div class="btn mt-5" style="margin-left: 1rem;" (click)="next(3)">next</div>
+
+                </div>
+            </div>
+            <!-- step three -->
+            <div id="partthree" class="content" role="tabpanel">
+                <div *ngIf="currentStep === 2">
+                    <h4 class="center-center text-center mb-4" style="color: #333">
+                        Locate the terrain
+                    </h4>
+                    <google-map height="400px" width="750px" [center]="center" [zoom]="zoom"
+                        (mapClick)="addMarker($event)">
+                        <map-marker *ngFor="let markerPosition of markerPositions" [position]="markerPosition"
+                            [options]="markerOptions">
+                        </map-marker>
+                        <!-- <mat-search-google-maps-autocomplete appearance="outline" country="usa"> -->
+
+                    </google-map>
+                    <div class="btn btn-dark-light mt-5" (click)="next(2)">Previous</div>
+                    <div class="btn mt-5" style="margin-left: 1rem;"
+                        [ngClass]="markerPositions.length===0 ? 'disabled': ''" (click)="addTerrain()">
+                        Confirm</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

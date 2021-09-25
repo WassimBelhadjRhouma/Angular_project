@@ -1,0 +1,444 @@
+/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+body {
+  font-family: "Poppins", sans-serif !important;
+  font-weight: 300;
+  // height: 100%;
+  // overflow: hidden;
+  //   background: rgb(182, 182, 182);
+}
+
+// colors to use
+$primary-color: #5fa641;
+$secondary-color: #ffc107;
+$third-color: #61b5c1;
+$dark-light-color: #bcbcbc;
+$dark-color: #343a40;
+$light-color: #f1f1f1;
+$sub-title-color: rgba(89, 89, 89, 1);
+$warning-color: #de2121;
+$grey-color: #868686;
+
+.primary-color {
+  color: $primary-color;
+}
+.dark-light-color {
+  color: $dark-light-color;
+}
+.secondary-color {
+  color: $secondary-color;
+}
+
+.grey-color {
+  color: $grey-color;
+}
+
+// input {
+//   font-size: 0.5rem;
+// }
+
+.active,
+.active.icon {
+  color: $primary-color;
+}
+.icon {
+  cursor: pointer;
+}
+
+.warning-color {
+  color: $warning-color;
+  &:hover {
+    color: $warning-color;
+  }
+}
+
+// Margin & Padding
+$spaceamounts: (1, 2, 3, 4, 5);
+
+@each $space in $spaceamounts {
+  // All around margin
+  .m-#{$space} {
+    margin: #{$space}rem;
+  }
+
+  // Vertical Margin
+  .my-#{$space} {
+    margin: #{$space}rem 0;
+  }
+
+  // All around Padding
+  .p-#{$space} {
+    padding: #{$space}rem;
+  }
+
+  // Vertical Padding
+  .py-#{$space} {
+    padding: #{$space}rem 0;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  // height: 100%;
+  // overflow: hidden;
+  //   background: rgb(182, 182, 182);
+}
+
+a {
+  color: #333;
+  cursor: pointer;
+  &:hover {
+    color: #333;
+  }
+  text-decoration: none !important;
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 4rem;
+}
+
+.dark-color {
+  color: $dark-color;
+}
+
+.secondary-color {
+  color: $secondary-color;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin: 0rem;
+}
+
+.sub-title-color {
+  color: $sub-title-color;
+}
+
+.bg-transparent {
+  color: #fff;
+  background-color: transparent;
+}
+.bg-third {
+  color: #fff;
+  background-color: $third-color !important;
+}
+.bg-dark-light {
+  color: #fff;
+  background-color: $dark-light-color;
+}
+
+.bg-primary {
+  background-color: $primary-color !important;
+  color: #fff;
+}
+.bg-dark {
+  color: #fff;
+  background-color: transparent;
+}
+.bg-secondary {
+  color: #fff;
+  background-color: $secondary-color !important;
+}
+.bg-light {
+  color: rgb(49, 49, 49) !important;
+  background-color: $light-color !important;
+}
+
+.bg-dark-light {
+  color: rgb(49, 49, 49) !important;
+  background-color: $dark-light-color !important;
+}
+
+.bg-white {
+  background-color: #fff !important;
+}
+
+.l-heading {
+  font-size: 2rem;
+  font-weight: 500;
+}
+.xl-heading {
+  font-size: 5rem;
+  font-weight: 500;
+  //   margin: 1.4rem 0;
+}
+.lead {
+  margin: 1rem 0;
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: #393939;
+  //   color: #f0f0f0;
+}
+
+.xs {
+  margin-top: 3rem !important;
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1.3rem;
+  color: #fff;
+  background-color: $primary-color;
+  border: none;
+  text-align: center;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  &:hover {
+    background-color: #65b643;
+    color: #fff;
+  }
+  &:focus {
+    // outline: none;
+    // box-shadow: none;
+    background-color: #65b643;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+    background-color: $primary-color !important;
+  }
+}
+.bg-border-primary {
+  color: $primary-color !important;
+  background-color: #fff !important;
+  font-weight: 500;
+  border: 2px solid $primary-color;
+}
+// .btn {
+//   color: $primary-color;
+//   font-weight: 400;
+//   background-color: #fff;
+//   border: none;
+//   text-align: center;
+//   border-radius: 0.3rem;
+//   cursor: pointer;
+//   transition: background-color 0.3s ease-in-out;
+//   &:hover {
+//     background-color: #65b643;
+//     color: #fff;
+//   }
+//   &:focus {
+//     // outline: none;
+//     // box-shadow: none;
+//     background-color: #65b643;
+//   }
+//   &:disabled {
+//     cursor: not-allowed;
+//     opacity: 0.65;
+//     background-color: $primary-color !important;
+//   }
+// }
+// .disabled {
+//   cursor: not-allowed;
+//   opacity: 0.65;
+//   background-color: $primary-color !important;
+// }
+
+.btn-search {
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  text-align: center;
+  font-weight: 400;
+  font-size: 0.9rem;
+  border: 1px solid #0eaa28;
+  transition: background-color 0.3s ease-in-out;
+  // border: none;
+  &-active {
+    background-color: #0eaa28;
+    color: #fff;
+    &:hover {
+      background-color: #0eaa28;
+      color: #fff;
+    }
+  }
+  &-inactive {
+    background-color: #fff;
+    color: #0eaa28;
+    // border: 1px solid #0eaa28;
+    // &:hover {
+    //   background-color: #fff;
+    //   color: #0eaa28;
+    // }
+  }
+  // &:disabled {
+  //   cursor: not-allowed;
+  //   opacity: 0.65;
+  //   background-color: $primary-color !important;
+  // }
+}
+
+.btn-dark-light {
+  color: #fff;
+  background-color: $dark-light-color;
+  transition: background-color 0.3s ease-in-out;
+  &:hover {
+    background-color: darken($dark-light-color, 10%);
+    color: #fff;
+  }
+  &:disabled {
+    background-color: $dark-light-color !important;
+  }
+}
+.btn-light {
+  color: #333;
+  background-color: $light-color;
+  transition: background-color 0.3s ease-in-out;
+  &:hover {
+    background-color: darken($light-color, 10%);
+    color: #333;
+  }
+  &:disabled {
+    background-color: $light-color !important;
+  }
+}
+.btn-secondary {
+  color: #fff;
+  background-color: $secondary-color !important;
+  &:hover {
+    background-color: darken($secondary-color, 3%) !important;
+    color: #fff;
+  }
+  &:disabled {
+    background-color: $secondary-color !important;
+  }
+}
+.btn-danger {
+  background-color: #ff0000;
+  transition: background-color 0.3s ease-in-out;
+  &:hover {
+    background-color: darken(#ff0000, 5%);
+    color: #fff;
+  }
+  // &:disabled {
+  //   background-color: $dark-light-color !important;
+  // }
+}
+.logo {
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.decor {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.top {
+  top: 0;
+}
+.right {
+  right: 0;
+}
+
+// All vectors position
+$spaceamounts: (1, 2, 3, 4, 5, 6, 7, 8);
+
+@each $space in $spaceamounts {
+  .top-#{$space} {
+    top: #{$space * 20 + 20}px;
+  }
+
+  .bottom-#{$space} {
+    bottom: #{$space}px;
+  }
+}
+
+.circle-icon {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background-color: rgb(177, 177, 177);
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+.center-center {
+  // display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// .flex-row{
+
+// }
+
+.collaps {
+  // height: 30px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.7rem 2rem;
+  align-items: center;
+  align-content: center;
+  span {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: rgb(105, 105, 105);
+  }
+  &-container {
+    padding: 2rem;
+  }
+}
+
+.loader-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.596);
+}
+
+.card-mine {
+  // box-shadow: -3px 6px 15px 2px rgba(136, 136, 136, 0.44);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  position: relative;
+  &-title {
+    font-size: 1.2rem !important;
+    color: #303030;
+  }
+}
+.logo {
+  img {
+    width: 120px !important;
+  }
+}

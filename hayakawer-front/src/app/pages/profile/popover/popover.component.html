@@ -1,0 +1,25 @@
+<!-- Title and cancel icon -->
+
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-title">Profile deletion</h4>
+    <span type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </span>
+</div>
+
+<!-- Text inside -->
+
+<div class="modal-body">
+    <p><strong> <span class="fas fa-exclamation-circle" style="color:red"></span> Are you sure you want to delete your
+            profile?</strong></p>
+    <p><span class="fas fa-exclamation-circle" style="color:red"></span> All information associated to this user profile
+        will be permanently deleted.
+        <span class="text-danger">This operation can not be undone.</span>
+    </p>
+</div>
+
+<!--Cancel and ok buttons -->
+<div class="modal-footer">
+    <button type="button" class="btn btn-dark-light" (click)="modal.dismiss('cancel click')">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="deleteAccount()">Ok</button>
+</div>

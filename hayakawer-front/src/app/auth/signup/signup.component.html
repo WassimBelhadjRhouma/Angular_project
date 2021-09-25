@@ -1,0 +1,136 @@
+<p class="fs-5 fw-normal">Create an account</p>
+<form (ngSubmit)="submitForm()" [formGroup]="registerForm" class="form g-3">
+
+    <div class="row mb-2">
+        <div class="form-group col-md-6">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" class="form-control" formControlName="firstName" id="firstName">
+            <small
+                *ngIf="registerForm.controls['firstName'].errors?.required && (registerForm.controls['firstName'].touched)"
+                class="warning-color">firstName required</small>
+            <small
+                *ngIf="registerForm.controls['firstName'].errors?.minlength && (registerForm.controls['firstName'].touched)"
+                class="warning-color">3 characters at least
+            </small>
+            <small
+                *ngIf="registerForm.controls['firstName'].errors?.maxlength && (registerForm.controls['firstName'].touched)"
+                class="warning-color">too long
+            </small>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" formControlName="lastName" class="form-control" id="lastName">
+            <small
+                *ngIf="registerForm.controls['lastName'].errors?.required && (registerForm.controls['lastName'].touched)"
+                class="warning-color">lastName required</small>
+            <small
+                *ngIf="registerForm.controls['lastName'].errors?.minlength && (registerForm.controls['lastName'].touched)"
+                class="warning-color">3 characters at least
+            </small>
+            <small
+                *ngIf="registerForm.controls['lastName'].errors?.maxlength && (registerForm.controls['lastName'].touched)"
+                class="warning-color">too long
+            </small>
+        </div>
+
+    </div>
+
+    <div class="form-group mb-2">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" formControlName="email" class="form-control" id="email">
+        <small id="emailHelp" class="form-text text-muted" *ngIf="!registerForm.controls['email'].errors">We'll
+            never share your email with anyone
+            else. </small>
+        <small *ngIf="registerForm.controls['email'].errors?.required && (registerForm.controls['email'].touched)"
+            class="warning-color">email required</small>
+        <small *ngIf="registerForm.controls['email'].errors?.pattern && (registerForm.controls['email'].touched)"
+            class="warning-color"> email invalid
+        </small>
+
+    </div>
+
+    <div class="form-group mb-2">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
+            <input type="{{showPassword ? 'text' : 'password'}}" appBlockCopyPaste formControlName="password"
+                class="form-control" id="password" aria-label="confirmPassword" aria-describedby="addon-wrapping">
+            <span [ngClass]="showPassword ?  'fa-eye': 'fa-eye-slash'"
+                class="fa m-1 p-2 position-absolute right showpassword" (click)="showPassword = !showPassword"></span>
+        </div>
+        <small *ngIf="registerForm.controls['password'].errors?.required && (registerForm.controls['password'].touched)"
+            class="warning-color">password required</small>
+        <small *ngIf="registerForm.controls['password'].errors?.pattern && (registerForm.controls['password'].touched)"
+            class="warning-color"> password invalid (should contains 1 uppercase, 1 number)
+        </small>
+    </div>
+
+    <div class="form-group mb-4">
+        <label for="confirmPassword" class="form-label">Confirm password</label>
+        <div class="input-group">
+            <input type="{{showConfirmPassword ? 'text' : 'password'}}" appBlockCopyPaste
+                formControlName="confirmPassword" class="form-control" id="confirmPassword" aria-label="confirmPassword"
+                aria-describedby="addon-wrapping">
+            <span [ngClass]="showConfirmPassword ?  'fa-eye': 'fa-eye-slash'"
+                class="fa m-1 p-2 position-absolute right showpassword"
+                (click)="showConfirmPassword = !showConfirmPassword"></span>
+        </div>
+        <small
+            *ngIf="registerForm.controls['confirmPassword'].errors?.required && (registerForm.controls['confirmPassword'].touched)"
+            class="warning-color"> wrong password (Doesn't match password)
+        </small>
+
+        <small
+            *ngIf="registerForm.controls['confirmPassword'].errors?.MatchPassword && (registerForm.controls['confirmPassword'].touched)"
+            class="warning-color"> wrong password (Doesn't match password)
+        </small>
+    </div>
+
+    <div class="row mb-3">
+        <div class="form-group col-md-6">
+            <select formControlName='region' (change)='detect()' class="form-select form-select-sm"
+                aria-label=".form-select-sm example">
+                <option selected>State</option>
+                <option *ngFor='let state of states'>{{state}}</option>
+                <!-- <option value="2">Two</option> -->
+                <!-- <option value="3">Three</option> -->
+            </select>
+            <small
+                *ngIf="registerForm.controls['region'].errors?.invalidState && (registerForm.controls['region'].touched)"
+                class="warning-color">state required
+            </small>
+        </div>
+        <div class="form-group col-md-6" *ngIf="registerForm.controls['region'].value !== 'State'">
+            <select formControlName='city' class="form-select form-select-sm" aria-label=".form-select-sm example">
+                <option selected>city</option>
+                <option *ngFor='let city of cities'>{{city}}</option>
+                <!-- <option value="2">Two</option> -->
+                <!-- <option value="3">Three</option> -->
+            </select>
+            <small *ngIf="registerForm.controls['city'].errors?.invalidCity && (registerForm.controls['city'].touched)"
+                class="warning-color">state required
+            </small>
+        </div>
+    </div>
+
+    <div class="form-group mb-2">
+        <button type="submit" [disabled]="registerForm.disabled || registerForm.invalid" class="btn btn-primary">Sign
+            up</button>
+    </div>
+</form>
+
+
+<div class="my-2">
+    <a routerLink="/auth/login" class="xs">Already have an account ?</a>
+</div>
+<div *ngIf="codeResponse===-1" class="alert alert-warning" role="alert">
+    email already in use
+</div>
+<div *ngIf="codeResponse===-2" class="alert alert-warning" role="alert">
+    something went wrong, please try again later
+</div>
+<div *ngIf="codeResponse===1" class="alert alert-success" role="alert">
+    Account successfully created! Confirm your email.</div>
+
+<div *ngIf="loader" class="spinner-grow primary-color" style="width: 3rem; height: 3rem" role="status">
+    <span class="sr-only">Loading...</span>
+</div>

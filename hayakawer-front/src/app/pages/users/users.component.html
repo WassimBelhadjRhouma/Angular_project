@@ -1,0 +1,75 @@
+<div class="container">
+    <div class="table card-mine">
+        <!-- <input type="text" name="" id="" style="width: 100%;background-color: #FCFCFC"> -->
+        <div class="filter-container">
+            <!-- <inpu:text></inpu:text> -->
+            <!-- <input type="text" name="" class="txt-center" id="" style='width: 90%;' placeholder="search by name, email"> -->
+            <div class="d-flex inputFilter-container" style="align-items: center; width: 100% !important;">
+                <input type="text" id="filter" [(ngModel)]="filterNameEmail" (ngModelChange)='filterName($event)'
+                    class="inputFilter" placeholder="Search by name, email" style="width: 100%;">
+                <span for='filter' class="fas fa-search"
+                    style="margin-left: -2.5rem;margin-top: 1rem;padding: .7rem;"></span>
+            </div>
+
+            <!-- <select formControlName='region' class="form-select form-select-sm" aria-label=".form-select-sm example"
+                style='width: 80%;'>
+                <option selected>all
+                </option>
+                <option>client</option>
+                <option>proprietaire</option>
+            </select> -->
+            <!-- <input type="text" name="" id="" style='width: 80%;'>
+            <input type="text" name="" id="" style='width: 80%;'> -->
+        </div>
+        <div class="leader-ligne" style='background-color: #FCFCFC;'>
+            <span class="column">Name</span>
+            <span class="column text-cnter">user type</span>
+            <span class="column text-center">number of reservation</span>
+            <span class="column text-center">number of report</span>
+        </div>
+
+        <div class="ligne"
+            *ngFor="let user of users | paginate: { itemsPerPage: limit, currentPage: page,totalItems: total}"
+            style='background-color: #FCFCFC;'>
+            <div class="" style='padding: 0 !important;'>
+                <span class="">{{user.firstName}} {{user.lastName}}
+                </span>
+                <br>
+                <span style='font-size: .85rem;' class="grey-color">
+                    {{user.email}} <span class="fas fa-times-circle" style='color: red;'
+                        *ngIf='user.isBlocked === true'></span>
+                </span>
+
+            </div>
+
+            <span class=" text-enter"> <span
+                    [ngClass]="user.userType === 'client'? 'small-btn-secondary' : user.userType === 'proprietaire' ?  'small-btn-primary' : '' "
+                    class="small-btn">{{user.userType}}</span>
+            </span>
+            <span class=" text-center">20</span>
+            <span class=" text-center">0</span>
+            <div class="column d-flex justify-content-between">
+                <!-- <span class="fas fa-pen" style='cursor: pointer;'></span> -->
+                <span class="fas fa-trash-alt" style='cursor: pointer;' (click)='deleteUser(user)'></span>
+                <span class="fas fa-ban" style=' cursor: pointer;' (click)="blockUnblock(user, 'block')"
+                    *ngIf='user.isBlocked === false'></span>
+                <span class="fas fa-undo-alt" style=' cursor: pointer;' (click)="blockUnblock(user)"
+                    *ngIf='user.isBlocked === true'></span>
+            </div>
+        </div>
+
+
+
+
+        <div class="d-flex justify-content-md-between center-center bg-light p-3" style="height: 50px;">
+            <span>Customers: {{page * users.length}}/{{total}}</span>
+            <pagination-controls (pageChange)="page = $event" (pageChange)="pageChanged($event)"
+                (pageBoundsCorrection)="pageChanged($event)" previousLabel="Previous" nextLabel="next"
+                screenReaderPaginationLabel="Pagination" class="float-right">
+            </pagination-controls>
+        </div>
+
+
+    </div>
+
+</div>

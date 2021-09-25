@@ -1,0 +1,549 @@
+<div class="container">
+
+    <div class="admin" *ngIf="userType === 'admin'">
+        <div class="center-center d-flex mb-4">
+            <div class="btn-search" [ngClass]="pageContent === 'terrain' ? 'btn-search-active' : 'btn-search-inactive'"
+                style='border-radius: 0.2rem 0rem 0rem 0.2rem;' (click)="changePage('stats')">
+                Stats
+            </div>
+            <div class="btn-search" [ngClass]="pageContent === 'stats' ? 'btn-search-active' : 'btn-search-inactive'"
+                style="border-radius: 0rem 0.2rem 0.2rem 0rem;" (click)="changePage('terrain')">
+                publications</div>
+
+        </div>
+        <div *ngIf="pageContent === 'stats'">
+
+
+            <div class="mb-4" style='display: grid; grid-template-columns: 1fr 1fr; '>
+                <div class=" card-mine p-4" style='padding: 4rem 4rem !important'>
+
+
+                    <div class="users-details-line mb-5">
+                        <div class="users-details">
+                            <h4>{{totalUsers}}</h4>
+                            <p class="users-details-title">Users</p>
+                        </div>
+                        <div class="users-details">
+                            <h4>{{deletedAccounts}}</h4>
+                            <p class="users-details-title">Deleted Accounts</p>
+                        </div>
+                    </div>
+                    <div class="users-details-line">
+                        <div class="users-details">
+                            <h4>{{totalTerrains}}</h4>
+                            <p class="users-details-title">Terrains</p>
+                        </div>
+                        <div class="users-details">
+                            <h4>{{totalReservation}}</h4>
+                            <p class="users-details-title">Reservations</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="" style='padding: 0;'>
+                    <div class="pie-container" style='padding-top: 2rem;'>
+
+                        <div echarts [options]="pieOptions" style='height: 300px;'></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-mine mb-4">
+                <div class="card-title-container p-3" style='width: 100%;'>
+                    <span>Tunisian State's stats</span>
+                </div>
+                <div class="" style='display: grid;grid-template-columns: 2fr 3fr;'>
+                    <div class="">
+                        <div *ngIf="userType === 'admin' && pageContent==='stats'" id="map"
+                            style='height: 500px;width:100%;'></div>
+                    </div>
+                    <div class=" p-5 state_tat" style='background-color: #fff;'>
+                        <div>
+                            <div class="mb-4">
+                                <span style='font-size: .8rem; color: #A7A7A7;'>Selected State</span>
+                                <h1>
+                                    <!-- <span class="fas fa-map-marker-alt" style='font-size: .8rem;color: rgb(230, 230, 230);'></span> -->
+                                    {{currentGov}}
+                                </h1>
+                                <!-- <div class="line-title"></div> -->
+                            </div>
+                            <!-- <div echarts [options]="govOptions"></div> -->
+
+                            <div class="bar-line">
+                                <span>Terrains</span>
+                                <div class="stats-container">
+                                    <div class="terrains" [style.width]='govDetails.widths.terrain'>
+                                    </div>
+                                    <p>{{govDetails.widths.terrain}}</p>
+                                </div>
+                                <span>{{govDetails.numbers.terrain}}</span>
+                            </div>
+                            <div class="bar-line my-3">
+                                <span>Reservations</span>
+                                <div class="stats-container">
+                                    <div class="terrains" [style.width]='govDetails.widths.reservation'>
+                                    </div>
+                                    <p>{{govDetails.widths.reservation}}</p>
+                                </div>
+                                <span>{{govDetails.numbers.reservation}}</span>
+                            </div>
+                            <div class="bar-line my-3">
+                                <span>Users</span>
+                                <div class="stats-container">
+                                    <div class="terrains" [style.width]='govDetails.widths.users'>
+                                    </div>
+                                    <p>{{govDetails.widths.users}}</p>
+                                </div>
+                                <span>{{govDetails.numbers.users}}</span>
+                            </div>
+                            <div class="bar-line my-3">
+                                <span>Clients</span>
+                                <div class="stats-container">
+                                    <div class="terrains" [style.width]='govDetails.widths.client'>
+                                    </div>
+                                    <p>{{govDetails.widths.client}}</p>
+                                </div>
+                                <span>{{govDetails.numbers.client}}</span>
+                            </div>
+                            <div class="bar-line">
+                                <span>Proprietaires</span>
+                                <div class="stats-container">
+                                    <div class="terrains" [style.width]='govDetails.widths.proprietaire'>
+                                    </div>
+                                    <p>{{govDetails.widths.proprietaire}}</p>
+                                </div>
+                                <span>{{govDetails.numbers.proprietaire}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="stats1-container"> -->
+            <!-- <div class="card-mine p-3"> -->
+            <!-- <div echarts [options]="newAccountsOptions" class="pie-uers" style='height: 200px;'></div> -->
+            <!-- </div> -->
+            <!-- <div class=" card-mine p-3"> -->
+            <!-- <div echarts [options]="deletedAccountsOptions" class="pie-uers" style='height: 200px;'></div> -->
+            <!-- </div> -->
+            <!-- <div class=""> -->
+            <!-- Sa -->
+            <!-- </div> -->
+            <!-- </div> -->
+            <!-- <div class="card-mine my-4 py-3"> -->
+            <!-- <div echarts [options]="courbeOption" class="demo-chart"></div> -->
+            <!-- <div class="card-mine py-3 pie-container" [ngClass]='!showPie? "d-none" : ""'>
+                <span class="fas fa-arrow-right arrow-right" (click)='showPie = !showPie'></span>
+            </div>
+            <div class="displayPie" [ngClass]='showPie? "d-none" : ""'>
+                <span class="fas fa-arrow-left" [ngClass]='showPie? "d-none" : ""' (click)='showPie = !showPie'></span>
+            </div>
+            <div class="labels" style='margin-left: 4rem;'>
+                <span class="fas fa-circle" style='font-size: .6rem; color: #91CC75;'></span> Proprietaire <br>
+                <span class="fas fa-circle" style='font-size: .6rem;color: #5470C6;'></span> clients
+            </div>
+        </div> -->
+        </div>
+    </div>
+
+    <!-- Showcase -->
+    <div *ngIf="userType !== 'admin' || (userType === 'admin' && pageContent === 'terrain')">
+        <header id="showcase">
+            <div class="container" id="acceuil">
+                <div class="showcase-container">
+                    <div class="showcase-content">
+                        <div class="showcase-text">
+                            <div class="category category-sports ">WE PROVIDE THE BEST SERVICE</div>
+                            <h1 class="l-title">Hayakawer !</h1>
+                            <p>Find where you want to play <i class="far fa-smile-beam"></i></p>
+                        </div>
+                        <div class="d-flex inputFilter-container" style="align-items: center; width: 100% !important;">
+
+                            <input type="text" id="filter" class="inputFilter" [(ngModel)]="filterText"
+                                (ngModelChange)='filterWithText($event)' placeholder="Search by title, description"
+                                style="width: 100%;">
+                            <span for='filter' class="fas fa-search"
+                                style="margin-left: -2.5rem;margin-top: 1rem;cursor: pointer;padding: .7rem;"></span>
+                        </div>
+                        <div class="d-flex">
+                            <p class="advanced" (click)='openFilterModal()' style='margin-right: 1rem'>Advanced Search
+                            </p>
+                            <p class="advanced" (click)='getTerrains()'>view all</p>
+
+                        </div>
+                    </div>
+                    <!-- <img src="../../../assets/wave5.svg" alt="" id="wave"> -->
+                </div>
+            </div>
+            <!-- Modal Filter start -->
+            <ng-template #modalFilter let-close="close">
+                <div class="modal-header">
+                    <h5 class="modal-title">Advanced Search</h5>
+                    <span type="button" class="close" (click)="close()">
+                        <span aria-hidden="true">&times;</span>
+                    </span>
+                </div>
+
+                <!-- Modal Filter body -->
+
+                <div class="modal-body">
+                    <div class="d- ustify-content-evenly center-center bg- p-3">
+                        <!-- blasset form -->
+                        <form [formGroup]="filterForm" class="form g-3 mb-5">
+
+                            <!-- Price && Capacity-->
+                            <div class="row mb-4">
+                                <div class="form-group col-md-6">
+                                    <label for="minPrice" class="form-label">Min price
+                                        <strong> / TND</strong></label>
+                                    <input type="number" min="0" class="form-control" formControlName="minPrice"
+                                        id="minPrice">
+
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="maxPrice" class="form-label">Max price
+                                        <strong> / TND</strong></label>
+                                    <input type="number" min="0" class="form-control" formControlName="maxPrice"
+                                        id="maxPrice">
+
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="minCapacity" class="form-label">Min capacity (player's number)</label>
+                                    <input type="number" formControlName="minCapacity" placeholder="Capacity"
+                                        class="form-control" id="minCapacity">
+
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="maxCapacity" class="form-label">Max capacity (player's number)</label>
+                                    <input type="number" formControlName="maxCapacity" placeholder="Capacity"
+                                        class="form-control" id="maxCapacity">
+
+                                </div>
+
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="form-group col-md-6">
+                                    <select formControlName='region' (change)='detect()'
+                                        class="form-select form-select-sm" aria-label=".form-select-sm example">
+                                        <option selected>State
+                                        </option>
+                                        <option *ngFor='let state of states'>{{state}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <select formControlName='city' class="form-select form-select-sm"
+                                        aria-label=".form-select-sm example">
+                                        <option selected>city</option>
+                                        <option *ngFor='let city of cities'>{{city}}</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" (click)="submitForm();close()">Search</button>
+                </div>
+            </ng-template>
+
+            <!-- Modal Filter End -->
+
+        </header>
+
+        <div class="container">
+            <!-- terrain cards -->
+            <p class="mb-4" style="font-weight: 500;font-size: 2rem; ">{{total}} Results</p>
+            <div class="pubs-cards ">
+                <div class="pub-card"
+                    *ngFor="let terrain of publicationDisplayList | paginate: { itemsPerPage: limit, currentPage: page,totalItems: total}"
+                    (click)='openDetailModal(terrain)'>
+                    <div class="img-container">
+                        <img src="../../../assets/terrain2.jpg" alt="">
+                        <!-- <div class="kind">
+                    <span class="kind-text"> 60 TND</span>
+                </div> -->
+                    </div>
+
+                    <!-- Modal start -->
+                    <ng-template #modalContent let-close="close">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Terrain Details</h5>
+                            <span type="button" class="close" (click)="close()">
+                                <span aria-hidden="true">&times;</span>
+                            </span>
+                        </div>
+
+
+
+                        <div class="modal-body">
+                            <div class="d- ustify-content-evenly center-center bg- p-3">
+                                <!-- blasset form -->
+                                <!-- Terrains Details :  -->
+                                <div class="card-mine p-5">
+                                    <div class="container">
+                                        <div style='position: relative;'>
+                                            <ngb-carousel *ngIf="images"
+                                                style='width: 100%;height: 500px;border-radius: 15px;'>
+                                                <ng-template ngbSlide
+                                                    style='width: 100%;height: 500px;border-radius: 15px;'
+                                                    *ngFor='let img of images'>
+                                                    <div class="picsum-img-wrapper"
+                                                        style='width: 100%;height: 500px;border-radius: 15px;'>
+                                                        <img [src]="img" alt="Random first slide"
+                                                            style='width: 100%;height: 100%;border-radius: 15px;'>
+                                                    </div>
+                                                </ng-template>
+                                            </ngb-carousel>
+                                            <div class="terrain-price">
+                                                {{currentPublication?.price}} TND
+                                            </div>
+                                        </div>
+                                        <div class="terrain-label my-4">
+                                            <h1 class="title">
+                                                {{currentPublication?.title}}
+                                            </h1>
+                                            <div class="secondary-color rating" style="font-size: .7rem;">
+                                                <span
+                                                    [ngClass]="value>=1 ? 'fas fa-star' : value>=0.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                                                <span
+                                                    [ngClass]="value>=2 ? 'fas fa-star' : value>=1.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                                                <span
+                                                    [ngClass]="value>=3 ? 'fas fa-star' : value>=2.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                                                <span
+                                                    [ngClass]="value>=4 ? 'fas fa-star' : value>=3.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                                                <span
+                                                    [ngClass]="value>=5 ? 'fas fa-star' : value>=4.5 ? 'fas fa-star-half-alt' : 'far fa-star'"></span>
+                                            </div>
+                                            <h6 class="location my-4">{{currentPublication?.city}}<br>
+                                                <span>{{currentPublication?.region}},
+                                                    Tunisie</span>
+                                            </h6>
+                                        </div>
+                                        <div class="card-mine p-4 my-2">
+                                            <h1 class="card-mine-title">
+                                                Description
+                                            </h1>
+                                            <hr>
+                                            <p class="lead">
+                                                {{currentPublication?.description}}
+                                            </p>
+                                        </div>
+                                        <div class="card-mine p-4 my-5">
+                                            <h1 class="card-mine-title">
+                                                Detail
+                                            </h1>
+                                            <div class="fw-bolder bg-light p-3 d-flex my-3">
+
+                                                <div class="col-5">
+                                                    <span>Capacity:</span> <span style='margin-left: 1rem;'
+                                                        class="grey-color">{{currentPublication?.capacity}}
+                                                        player</span>
+                                                </div>
+                                                <div class="col-7">
+                                                    <span class="">Price per reservation:</span> <span
+                                                        style='margin-left: 1rem; color: #41DC7F;'
+                                                        class="fw-bold">{{currentPublication?.price}} TND</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- calendar start -->
+                                        <div class="card-ine p-4">
+                                            <ng-template #modalContent let-close="close">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Reservation Details</h5>
+                                                    <span type="button" class="close" (click)="close()">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </span>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="d-flex ustify-content-evenly bg-light p-3">
+                                                        <div class="d-flecenter-ceter" style='margin-right: 6rem;'>
+                                                            <h6>start: </h6>
+                                                            <pre>{{ modalData?.event.start.getHours() }}:{{ modalData?.event.start.getMinutes() === 0 ? '00':  modalData?.event.start.getMinutes()}} {{ modalData?.event.start.getDate() }}/{{ modalData?.event.start.getMonth() < 10 ? '0'+modalData?.event.start.getMonth(): modalData?.event.start.getMonth()  }}/{{ modalData?.event.start.getFullYear()
+                                                }}</pre>
+                                                        </div>
+                                                        <div>
+                                                            <h6>
+                                                                end:
+                                                            </h6>
+                                                            <pre>{{ modalData?.event.end.getHours() }}:{{ modalData?.event.end.getMinutes() === 0 ? '00': modalData?.event.start.getMinutes() }} {{ modalData?.event.end.getDate() }}/{{ modalData?.event.end.getMonth() < 10 ? '0'+modalData?.event.start.getMonth(): modalData?.event.start.getMonth() }}/{{ modalData?.event.end.getFullYear() }}</pre>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary"
+                                                        (click)="close()">OK</button>
+                                                </div>
+                                            </ng-template>
+                                            <div class="d-flex justify-content-between my-3">
+                                                <div class="btn-group">
+                                                    <span class="btn btn-light" mwlCalendarPreviousView [view]="view"
+                                                        [(viewDate)]="viewDate"
+                                                        (viewDateChange)="closeOpenMonthViewDay()">
+                                                        Previous
+                                                    </span>
+                                                    <span class="btn btn-light" mwlCalendarToday
+                                                        [(viewDate)]="viewDate">
+                                                        Today
+                                                    </span>
+                                                    <span class="btn btn-light" mwlCalendarNextView [view]="view"
+                                                        [(viewDate)]="viewDate"
+                                                        (viewDateChange)="closeOpenMonthViewDay()">
+                                                        Next
+                                                    </span>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <div class="btn btn-light" (click)="setView(CalendarView.Month)"
+                                                        [class.active]="view === CalendarView.Month">
+                                                        Month
+                                                    </div>
+                                                    <div class="btn btn-light" (click)="setView(CalendarView.Week)"
+                                                        [class.active]="view === CalendarView.Week">
+                                                        Week
+                                                    </div>
+                                                    <div class="btn btn-light" (click)="setView(CalendarView.Day)"
+                                                        [class.active]="view === CalendarView.Day">
+                                                        Day
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center my-4" style=''>
+                                                <p class="" style="font-size: 1.5rem;">{{ viewDate | calendarDate:(view
+                                                    +
+                                                    'ViewTitle'):'en' }}</p>
+                                            </div>
+                                            <div [ngSwitch]="view">
+                                                <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month"
+                                                    [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+                                                    [activeDayIsOpen]="activeDayIsOpen"
+                                                    (dayClicked)="dayClicked($event.day)"
+                                                    (eventTimesChanged)="eventTimesChanged($event)">
+                                                </mwl-calendar-month-view>
+                                                <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week"
+                                                    [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+                                                    (eventTimesChanged)="eventTimesChanged($event)">
+                                                </mwl-calendar-week-view>
+                                                <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day"
+                                                    [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+                                                    (eventTimesChanged)="eventTimesChanged($event)">
+                                                </mwl-calendar-day-view>
+                                            </div>
+                                            <h3 class="my-3" style='margin-top: 3rem !important;'>
+                                                Reserve
+
+                                            </h3>
+
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Starts at</th>
+                                                            <th>Ends at</th>
+                                                            <th>Confirm</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        <tr *ngFor="let event of requestReservation">
+                                                            <td>
+                                                                <input class="form-control" type="text" mwlFlatpickr
+                                                                    [(ngModel)]="event.start"
+                                                                    (ngModelChange)="refresh.next()" [altInput]="true"
+                                                                    [time_24hr]="true" [convertModelValue]="true"
+                                                                    [enableTime]="true" dateFormat="Y-m-dTH:i"
+                                                                    altFormat="F j, Y H:i" placeholder="Not set" />
+                                                            </td>
+                                                            <td>
+                                                                <input class="form-control" type="text" mwlFlatpickr
+                                                                    [(ngModel)]="event.end" [time_24hr]="true"
+                                                                    (ngModelChange)="refresh.next()" [altInput]="true"
+                                                                    [convertModelValue]="true" [enableTime]="true"
+                                                                    dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i"
+                                                                    placeholder="Not set" />
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <span class="fas fa-plus"
+                                                                    (click)="confirmReservation(event)"
+                                                                    style='margin-top: .7rem;font-size: 1.2rem;cursor: pointer;'></span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <button class="btn bg-border-primary float-right" (click)="addEvent()">
+                                                    Add new
+                                                    <!-- <span class="fas fa-plus"></span> -->
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- calendar end -->
+                                        <div class="card-min p-4 d-flex center-center">
+                                            <div>
+                                                <h4 class="my-4" style='margin-bottom: 0rem;'> Location
+                                                    <!-- <span class="fas fa-map-marked-alt fs-5"></span> -->
+                                                </h4>
+
+                                                <google-map height="400px" width="750px" [center]="center"
+                                                    [zoom]="zoom">
+                                                    <map-marker *ngFor="let markerPosition of markerPositions"
+                                                        [position]="markerPosition" [options]="markerOptions">
+                                                    </map-marker>
+                                                </google-map>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <!-- End Terrains Detsils -->
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <!-- <button type="button" [disabled]="terrainForm.disabled || terrainForm.invalid || !terrainForm.touched
+            || terrainForm.pristine" class="btn" (click)="submitForm();close()">Update</button> -->
+                        </div>
+                    </ng-template>
+
+                    <!-- Modal End -->
+
+
+
+
+
+
+
+
+
+
+
+                    <hr style="margin : 1rem 0rem .5rem 0rem; color: rgb(94, 109, 94);">
+                    <div class="p-2">
+                        <div class="card-info">
+                            <h1 class="title">{{terrain.title.substring(0, 13)}} {{terrain.title.length > 12 ? '...'
+                                :
+                                ''}}
+                            </h1>
+                            <div style='font-size: .7rem;margin-bottom: .6rem;'>
+                                <span class="fas fa-map-marker-alt" style='font-size: .6rem;'></span>
+                                <span>
+                                    {{terrain.city}}, {{terrain.region}}
+                                </span>
+                            </div>
+                            <p class="price">{{terrain.price}} TND</p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="center-center d-flex my-5">
+
+                <!-- new pagination -->
+                <pagination-controls *ngIf='total>7' (pageChange)="page = $event" (pageChange)="pageChanged($event)"
+                    (pageBoundsCorrection)="pageChanged($event)" previousLabel="Previous" nextLabel="next"
+                    screenReaderPaginationLabel="Pagination" class="float-right">
+                </pagination-controls>
+            </div>
+        </div>

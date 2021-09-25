@@ -1,0 +1,37 @@
+@import "../../styles";
+
+.leftSide {
+  padding: 1.5rem 3rem;
+  background-color: #effee9;
+  .content {
+    .lead {
+      font-weight: 600;
+      color: #4d5c0e;
+    }
+    img {
+      width: 30vw;
+    }
+  }
+}
+
+.flexbox-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.form-page {
+  height: 100vh;
+  // display: grid;
+  // overflow: hidden;
+  // grid-template-columns: 2fr 3fr;
+  &- &-rightSide {
+    display: flex;
+    padding: 0 6rem 0 6rem;
+    justify-content: center;
+    // width: 100%;
+    flex-direction: center;
+    align-items: center;
+  }
+}

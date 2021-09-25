@@ -1,0 +1,28 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "HAYAKAWER API DOCS",
+        "description": "PFE HAYAKAWER",
+        "contact": {
+            "name": "Lookiimobile",
+            "email": "contact@lookiimobile.co",
+            "url": "https://lookiimobile.com"
+        }
+    },
+    "tags": [
+       
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+
+    },
+    "definitions": {
+ 
+    }
+}
